@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero">
+    <h2>Discover Amazing Festivals</h2>
+    <p>Find and bookmark your favorite events happening around you!</p>
+</div>
+
+<div class="events-grid">
+    {% for event in events %}
+    <div class="event-card">
+        <div class="event-header">
+            <h3>{{ event.name }}</h3>
+            <span class="category-tag">{{ event.category }}</span>
+        </div>
+        
+        <div class="event-details">
+            <p class="event-date">📅 {{ event.date }}</p>
+            <p class="event-location">📍 {{ event.location }}</p>
+            <p class="event-description">{{ event.description }}</p>
+        </div>
+        
+        <div class="event-actions">
+            <button onclick="toggleBookmark('{{ event._id }}')" class="bookmark-btn">
+                🤍 Bookmark
+            </button>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% if not events %}
+<div class="no-events">
+    <h3>No events found</h3>
+    <p><a href="{{ url_for('add_event') }}">Add the first event!</a></p>
+</div>
+{% endif %}
+{% endblock %}

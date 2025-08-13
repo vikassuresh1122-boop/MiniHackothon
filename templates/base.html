@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Festival Event Planner{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1><a href="{{ url_for('index') }}">🎉 Festival Planner</a></h1>
+            <ul class="nav-menu">
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('add_event') }}">Add Event</a></li>
+                <li><a href="{{ url_for('my_bookmarks') }}">My Bookmarks</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+
+    <script>
+        // Simple bookmark functionality
+        function toggleBookmark(eventId) {
+            fetch(`/bookmark/${eventId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const btn = document.querySelector(`button[onclick="toggleBookmark('${eventId}')"]`);
+                    if (data.status === 'bookmarked') {
+                        btn.innerHTML = '❤️ Bookmarked';
+                        btn.classList.add('bookmarked');
+                    } else {
+                        btn.innerHTML = '🤍 Bookmark';
+                        btn.classList.remove('bookmarked');
+                    }
+                });
+        }
+    </script>
+</body>
+</html>
